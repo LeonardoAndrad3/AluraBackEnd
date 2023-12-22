@@ -5,14 +5,7 @@ public class Main {
     public static void main(String[] args) {
 
         //Format view string
-        String str= """
-                
-                Realiznado um
-                teste com strings
-                para saber se ele pula 
-                linhas
-                
-                """;
+        String str = "Realiznado um teste com strings para saber se ele pula linhas";
 
         System.out.println(str);
 
@@ -54,6 +47,9 @@ public class Main {
 
         ava /= count;
         System.out.printf("Film: %s%nAvailable: %.1f", resp, ava);
+
+
+
 
 
     }

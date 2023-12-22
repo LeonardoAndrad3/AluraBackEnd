@@ -1,4 +1,4 @@
-package primeiroDesafio;
+package br.com.alura.desafios.primeiroDesafio;
 
 import java.util.Scanner;
 
@@ -43,12 +43,10 @@ public class Application {
         while(aux != 4){
             System.out.println("***********************");
 
-            System.out.println("""
-                    1- Consultar saldos
-                    2- Receber valor
-                    3- Transferir valor
-                    4- Sair
-                    """);
+            System.out.println(" 1- Consultar saldos"+
+                    "2- Receber valor"+
+                    "3- Transferir valor"+
+                    "4- Sair");
 
             System.out.print("Type want option: ");
 
