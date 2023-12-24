@@ -21,6 +21,10 @@ public class Serie extends Title{
         super.setDurationInMinutes(temp*epPerTemp*epMinites);
     }
 
+    public Serie(String name, int releaseYear) {
+        super(name, releaseYear);
+    }
+
     public Serie() {
     }
 
@@ -61,5 +65,8 @@ public class Serie extends Title{
         return super.getDurationInMinutes();
     }
 
-
+    @Override
+    public String toString() {
+        return "Name: " + this.getName() + "("+this.getReleaseYear()+")";
+    }
 }

@@ -3,12 +3,14 @@ package br.com.alura.aula.resource;
 import br.com.alura.aula.resource.math.Classification;
 
 public class Film extends Title implements Classification {
-
     private String autor;
-
     public Film(String name, int releaseYear, boolean plane, double rating, int totalRating, int durationInMinutes, String autor) {
         super(name, releaseYear, plane, rating, totalRating, durationInMinutes);
         this.autor = autor;
+    }
+
+    public Film(String name, int releaseYear) {
+        super(name, releaseYear);
     }
 
     public String getAutor() {

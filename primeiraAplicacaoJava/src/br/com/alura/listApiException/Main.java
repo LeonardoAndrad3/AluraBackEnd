@@ -3,10 +3,13 @@ package br.com.alura.listApiException;
 import br.com.alura.aula.resource.Episode;
 import br.com.alura.aula.resource.Film;
 import br.com.alura.aula.resource.Serie;
+import br.com.alura.aula.resource.Title;
 import br.com.alura.aula.resource.math.CalcTime;
 import br.com.alura.aula.resource.math.RecommendationFilter;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Main {
 
@@ -14,55 +17,50 @@ public class Main {
     public static void main(String[] args) {
         Film filmMe = new Film("Top gun", 1980, true, 4.8, 100, 135, "Leonardo");
         Film film2 = new Film("Top gunnn", 1990, true, 4.2, 40, 105, "Nando");
-
-        filmMe.getTechnicRecord();
-        filmMe.rate(8);
-        filmMe.rate(5);
-        filmMe.rate(10);
-
-        System.out.println("Total rating: "+filmMe.getTotalRating());
-        System.out.println("Rating: "+filmMe.getRating());
-
         Serie serie = new Serie("How I meet your mother", 2003, false, 4.0, 245, 20, 10, false, 10, 50);
+        Film filmePaulo = new Film("Nomad", 2018, false, 4.8, 100, 200, "Paulo");
+        Film f1 = filmePaulo;
 
-        System.out.println();
-        serie.getTechnicRecord();
-        System.out.println(serie.getDurationInMinutes());
 
-        CalcTime calc = new CalcTime();
+        ArrayList<Title> list = new ArrayList<>();
 
-        calc.includ(filmMe);
-        calc.includ(film2);
-        calc.includ(serie);
-        System.out.println(calc.getTotalTime());
+        list.add(filmePaulo);
+        list.add(filmMe);
+        list.add(film2);
+        list.add(serie);
 
-        RecommendationFilter filter = new RecommendationFilter();
-        System.out.println(filmMe.getClassification());
-        filter.filtrar(filmMe);
+        for (Title item : list) {
+            System.out.println(item.getName());
 
-        Episode ep1 = new Episode();
+            if (item instanceof Film film && film.getClassification() > 2) {
+                System.out.println("Classification: " + film.getClassification());
+            }
 
-        ep1.setNumber(1);
-        ep1.setSerie(serie);
-        ep1.setName("I travel to New York");
-        ep1.setTotalVisualization(100);
+        }
 
-        filter.filtrar(ep1);
+        ArrayList<String> findArtist =  new ArrayList<>();
 
-        Film filmePaulo = new Film("nome",2018, false, 4.8, 100, 200, "Paulo");
+        findArtist.add("Adam");
+        findArtist.add("Paulo");
+        findArtist.add("Jacqueline");
+        System.out.println(findArtist);
 
-        ArrayList<Film> listFilm = new ArrayList<>();
+        //Ordenação
+        Collections.sort(findArtist);
+        System.out.println("List sort: ");
+        System.out.println(findArtist);
 
-        listFilm.add(filmePaulo);
-        listFilm.add(filmMe);
-        listFilm.add(film2);
+        Collections.sort(list);
 
-        System.out.println("Size list: " + listFilm.size());
-        System.out.println("First film: " + listFilm.get(0).getName());
-        System.out.println(listFilm);
+        System.out.println(list);
 
-        
+        //Comparator é uma classe de comparação
+        list.sort(Comparator.comparing(Title::getReleaseYear));
 
+
+        System.out.println("Comparing with release:");
+        System.out.println(list);
 
     }
+
 }

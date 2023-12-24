@@ -1,6 +1,6 @@
 package br.com.alura.aula.resource;
 
-public abstract class Title {
+public abstract class Title implements Comparable<Title>{
 
     private String name;
     private int releaseYear;
@@ -16,6 +16,11 @@ public abstract class Title {
         this.rating = rating;
         this.totalRating = totalRating;
         this.durationInMinutes = durationInMinutes;
+    }
+
+      public Title(String name, int releaseYear) {
+        this.name = name;
+        this.releaseYear = releaseYear;
     }
 
     public Title() {
@@ -80,4 +85,8 @@ public abstract class Title {
         rating /=totalRating;
     }
 
+    @Override
+    public int compareTo(Title other) {
+        return this.getName().compareTo(other.getName());
+    }
 }
