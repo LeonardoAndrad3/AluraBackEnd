@@ -10,6 +10,7 @@ import br.com.alura.aula.resource.math.RecommendationFilter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 public class Main {
 
@@ -38,7 +39,7 @@ public class Main {
 
         }
 
-        ArrayList<String> findArtist =  new ArrayList<>();
+        List<String> findArtist =  new ArrayList<>();
 
         findArtist.add("Adam");
         findArtist.add("Paulo");
@@ -60,6 +61,8 @@ public class Main {
 
         System.out.println("Comparing with release:");
         System.out.println(list);
+
+
 
     }
 
