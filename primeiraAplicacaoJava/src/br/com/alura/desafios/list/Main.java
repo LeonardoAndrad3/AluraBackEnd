@@ -1,13 +1,10 @@
 package br.com.alura.desafios.list;
 
-import br.com.alura.desafios.list.utils.Config;
+import br.com.alura.desafios.list.utils.Menu;
 
-public class Main extends Config {
+public class Main extends Menu {
 
     public static void main(String[] args) {
-
-        System.out.println(mouse);
-
+        new Main().run();
     }
-
 }

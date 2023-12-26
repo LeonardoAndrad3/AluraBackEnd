@@ -6,31 +6,43 @@ public class Item implements Comparable<Item>{
 
     private String name;
     private Double price;
+    private Integer number;
 
     public Item(String name, Double price) {
         this.name = name;
         this.price = price;
     }
 
-    public String getName() {
-        return name;
+    public Item(String name, Double price, Integer number) {
+        this.name = name;
+        this.price = price;
+        this.number = number;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public Double getTotal(){
+        return price*number;
     }
+
 
     @Override
     public String toString() {
-        return String.format("%s - %.1f", name, price);
+        return String.format("%dX %s(R$ %.1f) - R$ %.1f", number, name, price, price*number);
     }
 
     @Override
