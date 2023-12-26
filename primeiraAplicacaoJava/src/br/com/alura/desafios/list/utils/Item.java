@@ -47,7 +47,7 @@ public class Item implements Comparable<Item>{
 
     @Override
     public int compareTo(Item other) {
-        return switch (this.price.compareTo(other.getPrice())) {
+        return switch (this.getTotal().compareTo(other.getTotal())) {
             case 1 -> 1;
             case -1 -> -1;
             case 0 -> 0;

@@ -10,6 +10,7 @@ public class Car {
 
     public void addItem(Item item){
         storage.add(item);
+        storage.sort(Item::compareTo);
     }
 
     public void removeItem(Item item){
