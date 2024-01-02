@@ -17,7 +17,7 @@ public class ManagerRequest implements Scan {
     public void run(){
         try {
 
-            System.out.print("Write the cep you want(exit to exit): ");
+            System.out.print("Write the cep you want: ");
             search = sc.nextLine();
 
             search = search.replaceAll("[\\D]", "");
