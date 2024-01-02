@@ -1,6 +1,10 @@
 package br.com.alura.aula.resource;
 
-public abstract class Title implements Comparable<Title>{
+import br.com.alura.exceptions.ErrorConvertYearException;
+import com.google.gson.annotations.SerializedName;
+
+public class Title implements Comparable<Title>{
+
 
     private String name;
     private int releaseYear;
@@ -24,6 +28,16 @@ public abstract class Title implements Comparable<Title>{
     }
 
     public Title() {
+    }
+
+    public Title(TitleOmdb titleOmdb) {
+        this.name = titleOmdb.title();
+
+        if(titleOmdb.year().length() > 4)
+            throw new ErrorConvertYearException("cannot convert the year, because it has more than four characters");
+
+        this.releaseYear = Integer.valueOf(titleOmdb.year());
+        this.durationInMinutes = Integer.valueOf(titleOmdb.runtime().substring(0, titleOmdb.runtime().indexOf(" ")));
     }
 
     public String getName() {
@@ -88,5 +102,15 @@ public abstract class Title implements Comparable<Title>{
     @Override
     public int compareTo(Title other) {
         return this.getName().compareTo(other.getName());
+    }
+
+
+    @Override
+    public String toString() {
+        return
+                "(name='" + name + '\'' +
+                ", releaseYear=" + releaseYear +
+                ", durationInMinutes=" + durationInMinutes +
+                ')';
     }
 }
