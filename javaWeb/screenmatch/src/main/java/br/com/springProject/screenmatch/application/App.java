@@ -59,23 +59,39 @@ public class App {
 
         episodes.forEach(System.out::println);
 
-        System.out.println("What do year you want see the episodes?");
-        var year = sc.nextInt();
-        sc.nextLine();
+//        System.out.println("What do year you want see the episodes?");
+//        var year = sc.nextInt();
+//        sc.nextLine();
+//
+//        LocalDate searchDate = LocalDate.of(year, 1, 1);
+//
+//        System.out.println(searchDate);
+//
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/mm/yyyy");
+//        episodes.stream()
+//                .filter(Objects::nonNull)
+//                .filter(e -> e.getRelease().isAfter(searchDate))
+//                .forEach(e -> System.out.println(
+//                        String.format("Season:%d Episode:%s Date release:%s", e.getSeason(),e.getEp(),e.getRelease().format(formatter))
+//                ));
 
-        LocalDate searchDate = LocalDate.of(year, 1, 1);
 
-        System.out.println(searchDate);
+        System.out.print("Write the title: ");
+        var charTitle = sc.nextLine();
+        var ep = episodes.stream().filter(e -> e.getTitle().toUpperCase().contains(charTitle.toUpperCase())).findFirst();
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/mm/yyyy");
-        episodes.stream()
-                .filter(Objects::nonNull)
-                .filter(e -> e.getRelease().isAfter(searchDate))
-                .forEach(e -> System.out.println(
-                        String.format("Season:%d Episode:%s Date release:%s", e.getSeason(),e.getEp(),e.getRelease().format(formatter))
-                ));
+        ep.ifPresent(System.out::println);
 
+        var test = episodes.stream()
+                .filter(e -> e.getRating() > 0.0)
+                .collect(Collectors.groupingBy(Episode::getSeason,
+                        Collectors.averagingDouble(Episode::getRating)));
 
+        System.out.println(test);
+
+        DoubleSummaryStatistics est = episodes.stream().filter(e -> e.getRating() > 0.0).collect(Collectors.summarizingDouble(Episode::getRating));
+
+        System.out.printf("Average: %.2f%nBest Episode:  %.2f%nWorst Episode: %.2f%nQuantity: %d%n", est.getAverage(),est.getMax(), est.getMin(), est.getCount());
 
     }
 }
