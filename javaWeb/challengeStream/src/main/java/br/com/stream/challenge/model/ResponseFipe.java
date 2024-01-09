@@ -7,5 +7,5 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record ResponseFipe(
         @JsonAlias("codigo") String code,
-        @JsonAlias("nome") String tag) {
+        @JsonAlias("nome") String name) {
 }

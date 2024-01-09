@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
+import java.util.Collections;
 import java.util.List;
 
 public class DataManager implements IConverter {
@@ -20,9 +21,12 @@ public class DataManager implements IConverter {
         }
     }
 
-    public <T> T converter(String json, TypeReference<T> type) {
+    public <T> List<T> converterList(String json, Class<T> type) {
+
+        var list = mapper.getTypeFactory().constructCollectionType(List.class, type);
+
         try {
-            return mapper.readValue(json.toLowerCase(), type);
+            return mapper.readValue(json.toLowerCase(), list);
         } catch (JsonProcessingException | NoSuchMethodError e) {
             throw new RuntimeException(e);
         }

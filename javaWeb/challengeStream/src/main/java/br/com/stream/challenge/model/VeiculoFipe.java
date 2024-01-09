@@ -10,8 +10,6 @@ public record VeiculoFipe(
         @JsonAlias("marca") String marca,
         @JsonAlias("modelo") String modelo,
         @JsonAlias("anomodelo") Integer anoModelo,
-        @JsonAlias("combustivel") String combustivel,
-        @JsonAlias("codigofipe") String codigoFipe,
-        @JsonAlias("mesreferencia") String mesReferencia,
-        @JsonAlias("siglacombustivel") Character siglaCombustivel) {
+        @JsonAlias("combustivel") String combustivel
+       ) {
 }
