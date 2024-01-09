@@ -14,19 +14,16 @@ public class DataManager implements IConverter {
     @Override
     public <T> T converter(String json, Class<T> tClass) {
         try {
-            System.out.println(json.toLowerCase());
-
             return mapper.readValue(json.toLowerCase(), tClass);
-        } catch (JsonProcessingException e) {
+        } catch (JsonProcessingException | NoSuchMethodError e) {
             throw new RuntimeException(e);
         }
     }
 
     public <T> T converter(String json, TypeReference<T> type) {
         try {
-            System.out.println(json.toLowerCase());
             return mapper.readValue(json.toLowerCase(), type);
-        } catch (JsonProcessingException e) {
+        } catch (JsonProcessingException | NoSuchMethodError e) {
             throw new RuntimeException(e);
         }
     }
