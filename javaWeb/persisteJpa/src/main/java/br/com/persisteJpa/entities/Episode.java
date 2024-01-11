@@ -24,7 +24,9 @@ public class Episode {
     @ManyToOne
     private Serie serie;
 
+    public Episode() {
 
+    }
 
     public Episode(Integer numberEpisode, DataEpisode dataEpisode) {
         this.season = numberEpisode;
