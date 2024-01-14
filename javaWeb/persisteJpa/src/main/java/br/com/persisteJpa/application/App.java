@@ -2,6 +2,7 @@ package br.com.persisteJpa.application;
 
 import br.com.persisteJpa.entities.Episode;
 import br.com.persisteJpa.entities.Serie;
+import br.com.persisteJpa.model.enums.Categorie;
 import br.com.persisteJpa.model.records.DataEpisode;
 import br.com.persisteJpa.model.records.DataSeason;
 import br.com.persisteJpa.model.records.DataSerie;
@@ -11,6 +12,7 @@ import br.com.persisteJpa.utils.DataManager;
 import br.com.persisteJpa.utils.IScanner;
 import br.com.persisteJpa.utils.RequestManager;
 
+import javax.sound.midi.Soundbank;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -57,6 +59,10 @@ public class App implements IScanner{
                     4 - Find serie for title
                     5 - Find serie for actor
                     6 - Find Best five serie
+                    7 - Find by categorie
+                    8 - Find by total season
+                    9 - Find episode by stretch
+                    10 - Find Best five episode
                     
                     0 - Exit
                     """;
@@ -72,14 +78,16 @@ public class App implements IScanner{
                 case 4 -> findByTitle();
                 case 5 -> findByActor();
                 case 6 -> findByBestFiveSerie();
+                case 7 -> findByGenre();
+                case 8 -> findBySeason();
+                case 9 -> findEpByStretch();
+                case 10 -> findTopEpisode();
                 case 0 -> System.out.println("Exiting...");
                 default -> System.out.println("Invalid option");
             }
 
         } while (option != 0);
     }
-
-
 
     private void searchWebSerie() {
         DataSerie data = getDataSerie();
@@ -162,6 +170,48 @@ public class App implements IScanner{
 
     }
 
+    private void findByGenre() {
+        System.out.println("What genre do want you?");
+        var nameGenre = scIn.nextLine();
+        Categorie categorie = Categorie.parseString(nameGenre);
+        List<Serie> serieByGenre = serieRep.findByGenre(categorie);
+        System.out.println("Serie by genre: ");
+
+        serieByGenre.forEach(System.out::println);
+    }
+
+    private void findBySeason() {
+        System.out.println("Write the total season you want to watch?");
+        var numberSeason = scIn.nextInt();
+        System.out.println("Write the rating of serie: ");
+        var ratingSeason = scIn.nextDouble();
+
+        List<Serie> perSeason = serieRep.findByTotalSeasons(numberSeason, ratingSeason);
+
+        System.out.println("------------");
+        perSeason.forEach(System.out::println);
+
+    }
+
+    private void findEpByStretch() {
+        System.out.print("Write the name episode to find: ");
+        var stretchEpisode =  scIn.nextLine();
+        var test = serieRep.findEpByStretch(stretchEpisode);
+        test.forEach(e ->
+                System.out.printf("Serie: %s Season: %s - Episode %s - %s%n",
+                        e.getSerie().getTitle(),
+                        e.getSeason(),
+                        e.getNumberEpisode(),
+                        e.getTitle()));
+    }
+
+    private void findTopEpisode() {
+        System.out.print("Write the serie: ");
+        var serie = scIn.nextLine();
+        List<Episode> topEpisodes = serieRep.findTop5Episode(serie);
+        topEpisodes.forEach(e -> System.out.printf("Serie: %s Season: %s - Episode %s - Title %s - Rating: %s%n", e.getSerie().getTitle(), e.getSeason(), e.getNumberEpisode(), e.getTitle(), e.getRating()));
+
+    }
 
 
 }

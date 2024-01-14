@@ -17,7 +17,7 @@ public enum Categorie {
     }
 
     public static Categorie parseString(String genre){
-       var cat = Arrays.stream(Categorie.values()).filter(c -> c.toString().equalsIgnoreCase(genre)).findFirst();
+       var cat = Arrays.stream(Categorie.values()).filter(c -> c.categorieOmdb.equalsIgnoreCase(genre)).findFirst();
 
        return cat.orElseThrow(() -> new IllegalArgumentException("Cat not find"));
     }
