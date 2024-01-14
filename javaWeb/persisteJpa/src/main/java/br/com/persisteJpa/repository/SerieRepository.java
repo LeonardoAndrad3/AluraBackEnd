@@ -6,6 +6,7 @@ import br.com.persisteJpa.model.enums.Categorie;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,10 +20,12 @@ public interface SerieRepository extends JpaRepository<Serie, Long> {
     @Query("select s from Serie s where s.totalSeasons <= :totalSeason and s.rating >= :rating")
     List<Serie> findByTotalSeasons(Integer totalSeason, Double rating);
 
-
     @Query("select e from Serie s inner join s.episodes e on e.title ilike %:stretchEpisode%")
     List<Episode> findEpByStretch(String stretchEpisode);
 
-    @Query("SELECT e FROM Serie s inner join s.episodes e ON s.title ilike %:nameSerie% ORDER BY e.rating DESC LIMIT 5")
-    List<Episode> findTop5Episode(String nameSerie);
+    @Query("SELECT e FROM Serie s inner join s.episodes e ON s = :serie ORDER BY e.rating DESC LIMIT 5")
+    List<Episode> findTop5Episode(Serie serie);
+
+    @Query("SELECT e FROM Serie s inner join s.episodes e on s = :serie where YEAR(e.release) >= :date")
+    List<Episode> findEpByDate(Serie serie, Integer date);
 }

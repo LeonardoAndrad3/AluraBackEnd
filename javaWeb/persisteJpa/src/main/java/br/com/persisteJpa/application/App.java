@@ -11,8 +11,10 @@ import br.com.persisteJpa.repository.SerieRepository;
 import br.com.persisteJpa.utils.DataManager;
 import br.com.persisteJpa.utils.IScanner;
 import br.com.persisteJpa.utils.RequestManager;
+import org.springframework.cglib.core.Local;
 
 import javax.sound.midi.Soundbank;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -36,6 +38,8 @@ public class App implements IScanner{
     private List<DataEpisode> dataEpisodes = new ArrayList<>();
 
     private List<Serie> seasons = new ArrayList<>();
+
+    private Optional<Serie> serieFind;
 
     public App(SerieRepository serieRep, EpisodeRepository episodeRep) {
 
@@ -63,6 +67,7 @@ public class App implements IScanner{
                     8 - Find by total season
                     9 - Find episode by stretch
                     10 - Find Best five episode
+                    11 - Find episodes by date
                     
                     0 - Exit
                     """;
@@ -82,12 +87,15 @@ public class App implements IScanner{
                 case 8 -> findBySeason();
                 case 9 -> findEpByStretch();
                 case 10 -> findTopEpisode();
+                case 11 -> findEpByDate();
                 case 0 -> System.out.println("Exiting...");
                 default -> System.out.println("Invalid option");
             }
 
         } while (option != 0);
     }
+
+
 
     private void searchWebSerie() {
         DataSerie data = getDataSerie();
@@ -146,10 +154,11 @@ public class App implements IScanner{
         System.out.print("Write the title serie: ");
         var name = scIn.nextLine();
 
-        Optional<Serie> seasonFind = serieRep.findByTitleContainingIgnoreCase(name);
+        serieFind = serieRep.findByTitleContainingIgnoreCase(name);
 
-        if(seasonFind.isPresent()) System.out.println("Data: " + seasonFind.get());
+        if(serieFind.isPresent()) System.out.println("Data: " + serieFind.get());
         else System.out.println("Not find season");
+
     }
 
     private void findByActor() {
@@ -206,10 +215,28 @@ public class App implements IScanner{
     }
 
     private void findTopEpisode() {
-        System.out.print("Write the serie: ");
-        var serie = scIn.nextLine();
-        List<Episode> topEpisodes = serieRep.findTop5Episode(serie);
-        topEpisodes.forEach(e -> System.out.printf("Serie: %s Season: %s - Episode %s - Title %s - Rating: %s%n", e.getSerie().getTitle(), e.getSeason(), e.getNumberEpisode(), e.getTitle(), e.getRating()));
+        findByTitle();
+
+        if(serieFind.isPresent()) {
+            var getSerie = serieFind.get();
+            List<Episode> topEpisodes = serieRep.findTop5Episode(getSerie);
+            topEpisodes.forEach(e -> System.out.printf("Serie: %s Season: %s - Episode %s - Title %s - Rating: %s%n", e.getSerie().getTitle(), e.getSeason(), e.getNumberEpisode(), e.getTitle(), e.getRating()));
+        }
+    }
+
+    private void findEpByDate() {
+        findByTitle();
+
+        if(serieFind.isPresent()){
+            var serie = serieFind.get();
+
+            System.out.print("Write the limit year want:");
+            var date = scIn.nextInt();
+            scIn.nextLine();
+
+            List<Episode> dateEpisodes = serieRep.findEpByDate(serie, date);
+            dateEpisodes.forEach(System.out::println);
+        }
 
     }
 
