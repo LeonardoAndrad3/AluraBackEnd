@@ -1,5 +1,6 @@
 package br.com.finderMusic.entity;
 
+import br.com.finderMusic.enums.Career;
 import jakarta.persistence.*;
 
 import java.io.Serial;
@@ -17,7 +18,10 @@ public class Artist implements Serializable {
     @Column(unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "artist", fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    private Career career;
+
+    @OneToMany(mappedBy = "artist", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Music> musics = new ArrayList<>();
 
     public Artist() {
@@ -25,6 +29,14 @@ public class Artist implements Serializable {
 
     public Artist(String name) {
         this.name = name;
+    }
+
+    public Career getCareer() {
+        return career;
+    }
+
+    public void setCareer(Career career) {
+        this.career = career;
     }
 
     public Long getId() {

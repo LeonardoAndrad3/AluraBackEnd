@@ -23,6 +23,7 @@ public class PersisteJpaApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+		System.out.println();
 		new App(SerieRep,EpisodeRep).run();
 	}
 }

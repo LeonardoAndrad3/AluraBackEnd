@@ -1,6 +1,10 @@
 package br.com.finderMusic;
 
 import br.com.finderMusic.application.App;
+import br.com.finderMusic.repository.ArtistRep;
+import br.com.finderMusic.services.ArtistService;
+import br.com.finderMusic.utils.Menu;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,12 +14,21 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 public class FinderMusicApplication implements CommandLineRunner {
 
+	@Autowired
+	private ArtistRep rep;
+
+	@Autowired
+	private ArtistService service;
+	@Autowired
+	App app;
+
+
 	public static void main(String[] args) {
 		SpringApplication.run(FinderMusicApplication.class, args);
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
-		new App().run();
+		app.run();
 	}
 }
