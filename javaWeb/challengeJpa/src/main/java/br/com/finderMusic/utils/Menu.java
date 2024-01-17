@@ -1,5 +1,7 @@
 package br.com.finderMusic.utils;
 
+import br.com.finderMusic.application.App;
+import br.com.finderMusic.dto.ArtistDto;
 import br.com.finderMusic.dto.Docs;
 import br.com.finderMusic.dto.MusicDto;
 import br.com.finderMusic.dto.ResponseDto;
@@ -24,6 +26,8 @@ public class Menu implements IScanner {
 
     @Autowired
     private ArtistRep rep;
+
+    private String strSend, json;
 
     private final RequestManager requestManager = new RequestManager();
 
@@ -61,7 +65,21 @@ public class Menu implements IScanner {
     private void registerArtist() {
         System.out.print("Write the name to your artist: ");
         var name = scIn.nextLine();
-        var response = rep.save(new Artist(name));
+
+        strSend = RequestManager.formatString(App.ADDRESS_ARTIST, "-", name);
+
+        System.out.println(strSend);
+
+        json = requestManager.toRequest(strSend);
+
+        var dataArtist = dataManager.formatJson(json, "/desc", "/toplyrics/item", "/pic_medium" );
+
+        ArtistDto artistDto = dataManager.converter(dataArtist, ArtistDto.class);
+
+        System.out.println(artistDto);
+
+        var response = rep.save(new Artist(artistDto));
+
         System.out.println(response);
     }
 
@@ -70,33 +88,31 @@ public class Menu implements IScanner {
         var music = scIn.nextLine();
 
         System.out.print("Write the artist: ");
-        var artist = scIn.nextLine();
+        var name = scIn.nextLine();
 
-        var strSend = String.format("%s?q=%s %s", TypeRequest.ARTMUS.toString().toLowerCase(), artist, music);
+        var opt = rep.findByNameContainingIgnoreCase(name);
 
-        System.out.println(strSend);
+        
+        if(opt.isPresent()){
+            opt.get();
+        } else{
+            System.out.print("Artist not found, please, register: ");
+            registerArtist();
+            opt = rep.findByNameContainingIgnoreCase(name);
+        }
 
-        var json = requestManager.toRequest(strSend);
+        strSend = RequestManager.formatString(App.ADDRESS+".%s?q=%s %s&limit=1","%20", TypeRequest.ARTMUS.toString().toLowerCase(), name, music);
 
-        Docs docs  = dataManager.converter(json, ResponseDto.class).response();
+        json = requestManager.toRequest(strSend);
+        json = dataManager.getFildName(json, "/response/docs");
 
+        var musicResponse = dataManager.converterList(json, MusicDto.class).stream().filter(m -> m.title() != null).findFirst().map(m -> new Music(m, artist)).orElseGet(null);
 
-        System.out.println(artist.equalsIgnoreCase("Tony Allysson"));
-        var musics = docs.musicDtos().stream()
-                .filter(m -> m.title() != null)
-                .filter(m -> m.artist() != null)
-                .map(Music::new)
-                .toList();
-
-        System.out.print("Select one, which: \n");
-        for(int i = 0; i < musics.size(); i++)
-            System.out.printf("%s- %s by %s%n", (i+1), musics.get(i).getTitle(), musics.get(i).getArtist().getName());
-
-        var option = scIn.nextInt()-1;
-        var artistResponse = musics.get(option).getArtist();
-        artistResponse.getMusics().add(musics.get(option));
-
-        rep.save(artistResponse);
+        if(music != null){
+            artist.getMusics().add(musicResponse);
+            rep.save(artist);
+        } else
+            System.out.println("Music not found");
     }
 
     private void ListingMusic() {

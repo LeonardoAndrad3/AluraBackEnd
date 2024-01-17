@@ -15,13 +15,11 @@ public class RequestManager {
 
     HttpResponse<String> response;
 
-    public String toRequest(String sendRequest){
+    public String toRequest(String address, String sendRequest){
 
         request = HttpRequest
                 .newBuilder()
-                .uri(URI.create(String.format("%s.%s&limit=2",
-                        App.ADDRESS,
-                        sendRequest.replace(" ", "%20").trim())))
+                .uri(URI.create(address + sendRequest.trim()))
                 .build();
 
         System.out.println(request);
@@ -33,4 +31,26 @@ public class RequestManager {
             throw new RuntimeException(e);
         }
     }
+
+    public String toRequest(String sendRequest){
+
+        request = HttpRequest
+                .newBuilder()
+                .uri(URI.create(sendRequest.trim()))
+                .build();
+
+        System.out.println(request);
+
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return response.body();
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static String formatString(String model, String replace , String ... values){
+        return String.format(model, values).replace(" ", replace).trim();
+    }
+
 }

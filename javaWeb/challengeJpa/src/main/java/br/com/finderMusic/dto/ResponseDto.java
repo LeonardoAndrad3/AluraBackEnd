@@ -8,7 +8,8 @@ import java.util.List;
 
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record ResponseDto(
-        @JsonAlias("response") Docs response
+public record ResponseDto<T>(
+        @JsonAlias("response") Docs<T> response,
+        @JsonAlias("artist") List<ArtistDto> artist
 ) {
 }

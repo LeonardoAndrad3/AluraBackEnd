@@ -19,4 +19,5 @@ public enum Career {
 
         return opt.orElseThrow(()-> new RuntimeException("It's not possible to convert"));
     }
+
 }

@@ -29,18 +29,16 @@ public class Music implements Serializable {
         this.artist = artist;
     }
 
-    public Music(MusicDto dto) {
+    public Music(MusicDto dto, Artist artist) {
         if(dto.title() != null)
             this.title = dto.title();
         else
             this.title = "none";
 
-        if(dto.album() != null)
-            this.album = dto.album();
-        else
-            this.album = "none";
+            this.artist = artist;
+    }
 
-        this.artist = new Artist(dto.artist());
+    public Music() {
     }
 
     public Long getId() {
@@ -81,7 +79,7 @@ public class Music implements Serializable {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", album='" + album + '\'' +
-                ", artist=" + artist +
+                ", artist=" + artist.getName() +
                 '}';
     }
 }

@@ -92,6 +92,5 @@ public class App {
         DoubleSummaryStatistics est = episodes.stream().filter(e -> e.getRating() > 0.0).collect(Collectors.summarizingDouble(Episode::getRating));
 
         System.out.printf("Average: %.2f%nBest Episode:  %.2f%nWorst Episode: %.2f%nQuantity: %d%n", est.getAverage(),est.getMax(), est.getMin(), est.getCount());
-
     }
 }

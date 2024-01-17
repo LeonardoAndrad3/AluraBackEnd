@@ -9,8 +9,7 @@ import org.springframework.lang.NonNull;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record MusicDto(
-        @JsonAlias("title") String title,
-        @JsonAlias("band") String artist,
-        @JsonAlias("alb") String album
+        @JsonAlias("desc") String title,
+        @JsonAlias("band") String name
 ) {
 }

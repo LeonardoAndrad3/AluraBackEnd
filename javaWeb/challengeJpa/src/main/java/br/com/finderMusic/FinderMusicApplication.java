@@ -15,11 +15,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 public class FinderMusicApplication implements CommandLineRunner {
 
 	@Autowired
-	private ArtistRep rep;
-
-	@Autowired
-	private ArtistService service;
-	@Autowired
 	App app;
 
 

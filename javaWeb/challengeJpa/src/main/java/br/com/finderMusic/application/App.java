@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 public class App implements IScanner {
 
     public static final String ADDRESS = "https://api.vagalume.com.br/search";
+    public static final String ADDRESS_ARTIST = "https://www.vagalume.com.br/%s/index.js";
     public static final String API_KEY = "apikey=660a4395f992ff67786584e238f501aa";
 
     @Autowired
