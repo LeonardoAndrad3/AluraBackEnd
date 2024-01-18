@@ -3,6 +3,8 @@ package br.com.finderMusic.entity;
 import br.com.finderMusic.dto.ArtistDto;
 import br.com.finderMusic.enums.Career;
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -26,6 +28,7 @@ public class Artist implements Serializable {
     private Career career;
 
     @OneToMany(mappedBy = "artist", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Music> musics = new ArrayList<>();
 
     public Artist(ArtistDto dto) {

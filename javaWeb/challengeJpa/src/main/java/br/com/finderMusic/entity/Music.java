@@ -3,6 +3,7 @@ package br.com.finderMusic.entity;
 
 import br.com.finderMusic.dto.MusicDto;
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
 
 import javax.swing.text.html.Option;
 import java.io.Serializable;
@@ -12,7 +13,7 @@ import java.time.LocalDate;
 public class Music implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     private String title;

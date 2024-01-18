@@ -34,16 +34,6 @@ public class DataManager implements IConverter {
         }
     }
 
-    public String getFildName(String json, String fildName){
-        try {
-            JsonNode node = mapper.readTree(json);
-            return node.at(fildName).toString();
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public String formatJson(String json, String ... data){
         try {
             JsonNode node = mapper.readTree(json);
@@ -60,4 +50,10 @@ public class DataManager implements IConverter {
             throw new RuntimeException(e);
         }
     }
+
+    public static boolean error(String json){
+        System.out.println("{'err':'it content not json'}");
+        return json.contains("404");
+    }
+
 }

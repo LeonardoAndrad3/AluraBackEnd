@@ -22,8 +22,6 @@ public class RequestManager {
                 .uri(URI.create(address + sendRequest.trim()))
                 .build();
 
-        System.out.println(request);
-
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
             return response.body();
@@ -33,13 +31,10 @@ public class RequestManager {
     }
 
     public String toRequest(String sendRequest){
-
         request = HttpRequest
                 .newBuilder()
                 .uri(URI.create(sendRequest.trim()))
                 .build();
-
-        System.out.println(request);
 
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -51,6 +46,10 @@ public class RequestManager {
 
     public static String formatString(String model, String replace , String ... values){
         return String.format(model, values).replace(" ", replace).trim();
+    }
+
+    public static boolean error(String json){
+        return json.contains("404");
     }
 
 }
