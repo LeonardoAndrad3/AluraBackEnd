@@ -44,6 +44,7 @@ public class Menu implements IScanner {
                 3- Listing music
                 4- Find music by artist
                 5- search data about the artist
+                6- Remove artist and yours music
                 
                 0- Exit
                 """);
@@ -52,7 +53,6 @@ public class Menu implements IScanner {
         scIn.nextLine();
         menuOption(option);
     }
-
 
     public void menuOption(Integer number){
         switch (number){
@@ -67,27 +67,29 @@ public class Menu implements IScanner {
         }
     }
 
-
     private void registerArtist() {
         System.out.print("Write the name to your artist: ");
         var name = scIn.nextLine();
 
+        if(rep.exist(name)){
+            rep.findByNameContainingIgnoreCase(name).ifPresent(a -> this.artist = a);
+            System.out.println("Artist has register");
+            return;
+        }
+
         strSend = RequestManager.formatString(App.ADDRESS_ARTIST, "-", name);
         json = requestManager.toRequest(strSend);
+
         if(DataManager.error(json)) return;
 
         var dataArtist = dataManager.formatJson(json, "/desc", "/toplyrics/item", "/pic_medium" );
-
-        System.out.println(dataArtist);
-
         ArtistDto artistDto = dataManager.converter(dataArtist, ArtistDto.class);
 
         try {
             this.artist = rep.save(new Artist(artistDto));
-            System.out.println(artist);
-
-        } catch (DataIntegrityViolationException e ){
-            System.out.println(e.getMessage()+"\nPlease, try again");
+            System.out.println("Artist registered");
+        } catch (RuntimeException e ){
+            System.out.println("{Err: "+e.getMessage()+"}");
         }
     }
 
@@ -107,7 +109,12 @@ public class Menu implements IScanner {
             return;
         }
 
-        strSend = RequestManager.formatString(App.ADDRESS+".%s?q=%s %s&limit=1","%20", TypeRequest.ARTMUS.toString().toLowerCase(), this.artist.getName(), music);
+        strSend = RequestManager.formatString(
+                App.ADDRESS+".%s?q=%s %s&limit=1",
+                "%20",
+                TypeRequest.ARTMUS.toString().toLowerCase(),
+                this.artist.getName(),
+                music);
 
         json = requestManager.toRequest(strSend);
 
@@ -132,7 +139,9 @@ public class Menu implements IScanner {
     private void findMusicByArtist() {
         System.out.print("Write the artist name: ");
         var response = scIn.nextLine();
-        rep.findMusicByArtistId(response);
+        var musics = rep.findMusicByArtist(response);
+
+        musics.forEach(System.out::println);
     }
 
     private void findAboutArtist() {
@@ -142,13 +151,13 @@ public class Menu implements IScanner {
     private void closeApplication() {
         System.out.println("Exiting...");
         on = false;
+        scIn.close();
     }
 
     private void removeAristAndMusics() {
         System.out.print("Write the name artist: ");
         var name = scIn.nextLine();
         rep.removeArtist(name);
+        System.out.println("Complete removing");
     }
-
-
 }

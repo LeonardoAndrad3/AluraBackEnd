@@ -26,6 +26,6 @@ public class ArtistService{
     }
 
     public List<Music> fundMusicByArtist(String name){
-        return rep.findMusicByArtistId(name);
+        return rep.findMusicByArtist(name);
     }
 }

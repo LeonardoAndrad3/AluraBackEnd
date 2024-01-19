@@ -8,6 +8,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.Arrays;
 
 public class RequestManager {
     HttpClient client = HttpClient.newHttpClient();
@@ -16,40 +17,35 @@ public class RequestManager {
     HttpResponse<String> response;
 
     public String toRequest(String address, String sendRequest){
-
-        request = HttpRequest
-                .newBuilder()
-                .uri(URI.create(address + sendRequest.trim()))
-                .build();
-
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            return response.body();
-        } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        builderUri(address+sendRequest);
+        return trySend();
     }
 
     public String toRequest(String sendRequest){
-        request = HttpRequest
-                .newBuilder()
-                .uri(URI.create(sendRequest.trim()))
-                .build();
-
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            return response.body();
-        } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        builderUri(sendRequest);
+        return trySend();
     }
 
-    public static String formatString(String model, String replace , String ... values){
+    public static String formatString(String model, String replace, String ... values){
         return String.format(model, values).replace(" ", replace).trim();
     }
 
-    public static boolean error(String json){
-        return json.contains("404");
+    public String trySend(){
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if(!response.body().contains("404"))
+                return response.body();
+            else
+                return "{'err':'it content not json'}";
+        } catch (IOException | InterruptedException e) {
+            return "{'err':'"+e.getMessage()+"'}";
+        }
     }
 
+    public void builderUri(String strRequest){
+        request = HttpRequest
+                .newBuilder()
+                .uri(URI.create(strRequest.trim()))
+                .build();
+    }
 }
