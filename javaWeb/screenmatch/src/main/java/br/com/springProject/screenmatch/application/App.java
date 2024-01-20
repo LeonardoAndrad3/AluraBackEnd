@@ -4,14 +4,9 @@ import br.com.springProject.screenmatch.model.DataEp;
 import br.com.springProject.screenmatch.model.DataSerie;
 import br.com.springProject.screenmatch.model.DataTemp;
 import br.com.springProject.screenmatch.model.Episode;
-import br.com.springProject.screenmatch.service.ConvertData;
-import br.com.springProject.screenmatch.service.GetApi;
-import org.apache.logging.log4j.util.PropertySource;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.datetime.DateFormatter;
+import br.com.springProject.screenmatch.utils.ConvertData;
+import br.com.springProject.screenmatch.utils.GetApi;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 

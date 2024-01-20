@@ -1,4 +1,4 @@
-package br.com.springProject.screenmatch.service;
+package br.com.springProject.screenmatch.utils;
 
 import java.io.IOException;
 import java.net.URI;
