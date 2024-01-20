@@ -2,22 +2,15 @@ package br.com.finderMusic.utils;
 
 import br.com.finderMusic.application.App;
 import br.com.finderMusic.dto.ArtistDto;
-import br.com.finderMusic.dto.Docs;
 import br.com.finderMusic.dto.MusicDto;
-import br.com.finderMusic.dto.ResponseDto;
 import br.com.finderMusic.entity.Artist;
 import br.com.finderMusic.entity.Music;
 import br.com.finderMusic.enums.TypeRequest;
 import br.com.finderMusic.repository.ArtistRep;
 import br.com.finderMusic.services.RequestManager;
-import com.fasterxml.jackson.core.JsonParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
-
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 //this just to print
 
@@ -43,8 +36,7 @@ public class Menu implements IScanner {
                 2- Register music
                 3- Listing music
                 4- Find music by artist
-                5- search data about the artist
-                6- Remove artist and yours music
+                5- Remove artist and yours music
                 
                 0- Exit
                 """);
@@ -60,8 +52,7 @@ public class Menu implements IScanner {
             case 2 -> registerMusic();
             case 3 -> ListingMusic();
             case 4 -> findMusicByArtist();
-            case 5 -> findAboutArtist();
-            case 6 -> removeAristAndMusics();
+            case 5 -> removeAristAndMusics();
 
             case 0 -> closeApplication();
         }
@@ -102,13 +93,6 @@ public class Menu implements IScanner {
 
         var opt = rep.findById(artist.getId());
 
-        if(opt.isPresent()){
-            opt.get();
-        } else{
-            System.out.print("Artist not found, please, register: ");
-            return;
-        }
-
         strSend = RequestManager.formatString(
                 App.ADDRESS+".%s?q=%s %s&limit=1",
                 "%20",
@@ -117,14 +101,11 @@ public class Menu implements IScanner {
                 music);
 
         json = requestManager.toRequest(strSend);
-
-        System.out.println(json.charAt(0));
-
         json = dataManager.formatJson(json, "/response/docs");
 
         var musicResponse = dataManager.converterList(json, MusicDto.class).stream().filter(m -> m.title() != null).findFirst().map(m -> new Music(m, artist)).orElseGet(null);
 
-        if(music != null){
+        if(musicResponse != null){
             artist.getMusics().add(musicResponse);
             rep.save(artist);
         } else
@@ -144,10 +125,6 @@ public class Menu implements IScanner {
         musics.forEach(System.out::println);
     }
 
-    private void findAboutArtist() {
-        System.out.println("");
-        var response = scIn.nextLine();
-    }
     private void closeApplication() {
         System.out.println("Exiting...");
         on = false;

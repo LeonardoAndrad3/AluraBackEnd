@@ -1,9 +1,6 @@
 package br.com.finderMusic;
 
 import br.com.finderMusic.application.App;
-import br.com.finderMusic.repository.ArtistRep;
-import br.com.finderMusic.services.ArtistService;
-import br.com.finderMusic.utils.Menu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -16,7 +13,6 @@ public class FinderMusicApplication implements CommandLineRunner {
 
 	@Autowired
 	App app;
-
 
 	public static void main(String[] args) {
 		SpringApplication.run(FinderMusicApplication.class, args);
