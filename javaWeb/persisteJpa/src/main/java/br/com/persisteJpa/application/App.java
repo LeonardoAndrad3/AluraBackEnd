@@ -6,15 +6,11 @@ import br.com.persisteJpa.model.enums.Categorie;
 import br.com.persisteJpa.model.records.DataEpisode;
 import br.com.persisteJpa.model.records.DataSeason;
 import br.com.persisteJpa.model.records.DataSerie;
-import br.com.persisteJpa.repository.EpisodeRepository;
 import br.com.persisteJpa.repository.SerieRepository;
 import br.com.persisteJpa.utils.DataManager;
 import br.com.persisteJpa.utils.IScanner;
-import br.com.persisteJpa.utils.RequestManager;
-import org.springframework.cglib.core.Local;
+import br.com.persisteJpa.service.RequestManager;
 
-import javax.sound.midi.Soundbank;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -28,8 +24,6 @@ public class App implements IScanner{
 
     private SerieRepository serieRep;
 
-    private EpisodeRepository episodeRep;
-
     private DataManager dataManager = new DataManager();
 
     private RequestManager requestManager = new RequestManager();
@@ -41,11 +35,8 @@ public class App implements IScanner{
 
     private Optional<Serie> serieFind;
 
-    public App(SerieRepository serieRep, EpisodeRepository episodeRep) {
-
+    public App(SerieRepository serieRep) {
         this.serieRep = serieRep;
-        this.episodeRep = episodeRep;
-
     }
 
 
@@ -94,8 +85,6 @@ public class App implements IScanner{
 
         } while (option != 0);
     }
-
-
 
     private void searchWebSerie() {
         DataSerie data = getDataSerie();

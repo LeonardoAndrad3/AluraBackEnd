@@ -128,4 +128,6 @@ public class Serie {
                 ", plot='" + plot +
                 ", episodes= " + episodes;
     }
+
+
 }

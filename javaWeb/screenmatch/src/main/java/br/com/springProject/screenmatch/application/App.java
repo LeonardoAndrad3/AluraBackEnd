@@ -3,7 +3,7 @@ package br.com.springProject.screenmatch.application;
 import br.com.springProject.screenmatch.model.DataEp;
 import br.com.springProject.screenmatch.model.DataSerie;
 import br.com.springProject.screenmatch.model.DataTemp;
-import br.com.springProject.screenmatch.model.Episode;
+import br.com.springProject.screenmatch.entity.Episode;
 import br.com.springProject.screenmatch.utils.ConvertData;
 import br.com.springProject.screenmatch.utils.GetApi;
 

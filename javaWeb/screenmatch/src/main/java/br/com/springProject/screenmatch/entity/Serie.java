@@ -1,23 +1,33 @@
 package br.com.springProject.screenmatch.entity;
 
 
+import br.com.springProject.screenmatch.enums.Genrer;
 import br.com.springProject.screenmatch.model.DataSerie;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+
+import java.io.Serializable;
+import java.util.List;
 
 @Entity
-public class Serie {
+public class Serie implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title;
 
     private Integer seasons;
     private String rating;
+
+    @Enumerated(EnumType.STRING)
+    private Genrer gener;
+
+    private String atores;
+
+    @OneToMany(mappedBy = "serie", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Episode> episodes;
 
     public Serie() {
     }
@@ -26,6 +36,14 @@ public class Serie {
         this.title = data.title();
         this.seasons = data.seasons();
         this.rating = data.rating();
+    }
+
+    public Serie(Long id, String title, Integer seasons, String rating, List<Episode> episodes) {
+        this.id = id;
+        this.title = title;
+        this.seasons = seasons;
+        this.rating = rating;
+        this.episodes = episodes;
     }
 
     public Long getId() {
@@ -54,6 +72,10 @@ public class Serie {
 
     public void setRating(String rating) {
         this.rating = rating;
+    }
+
+    public List<Episode> getEpisodes() {
+        return episodes;
     }
 
     @Override

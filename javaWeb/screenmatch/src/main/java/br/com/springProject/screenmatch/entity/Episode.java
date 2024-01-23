@@ -1,14 +1,28 @@
-package br.com.springProject.screenmatch.model;
+package br.com.springProject.screenmatch.entity;
+
+import br.com.springProject.screenmatch.model.DataEp;
+import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
+@Entity
 public class Episode {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private Integer season;
     private String title;
     private Integer ep;
     private double rating;
     private LocalDate release;
+
+    @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Serie serie;
 
     public Episode(Integer season, DataEp data){
         this.season = season;

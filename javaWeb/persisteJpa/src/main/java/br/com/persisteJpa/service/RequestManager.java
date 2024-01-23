@@ -1,4 +1,4 @@
-package br.com.persisteJpa.utils;
+package br.com.persisteJpa.service;
 
 import br.com.persisteJpa.application.App;
 
