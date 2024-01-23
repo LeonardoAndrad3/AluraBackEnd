@@ -41,11 +41,11 @@ public class App implements IScanner{
 
 
     public void run(){
+
         showMenu();
     }
     public void showMenu() {
         var option = 0;
-
         do {
             var menu = """
                     1 - Find seasons
