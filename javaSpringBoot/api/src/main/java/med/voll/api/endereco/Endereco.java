@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import med.voll.api.utils.Validation;
 
 
 @Getter
@@ -23,4 +24,13 @@ public class Endereco {
     private String cidade;
     private String uf;
 
+    public void atualizarInformacoes(EnderecoDTO data) {
+        if(Validation.isNull(data.logradouro())) this.logradouro = data.logradouro();
+        if(Validation.isNull(data.bairro())) this.bairro = data.bairro();
+        if(Validation.isNull(data.cep())) this.cep = data.cep();
+        if(Validation.isNull(data.numero())) this.numero = data.numero();
+        if(Validation.isNull(data.complemento())) this.complemento = data.complemento();
+        if(Validation.isNull(data.cidade())) this.cidade = data.cidade();
+        if(Validation.isNull(data.uf())) this.uf = data.uf();
+    }
 }
