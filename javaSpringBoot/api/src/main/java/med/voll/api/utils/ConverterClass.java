@@ -1,11 +1,10 @@
 package med.voll.api.utils
         ;
 
-import med.voll.api.endereco.Endereco;
-import med.voll.api.endereco.EnderecoDTO;
-import med.voll.api.medico.Medico;
-import med.voll.api.medico.MedicoDTO;
-import med.voll.api.medico.MedicosListDTO;
+import med.voll.api.domain.endereco.Endereco;
+import med.voll.api.domain.endereco.EnderecoDTO;
+import med.voll.api.domain.medico.Medico;
+import med.voll.api.domain.medico.MedicoDTO;
 
 public class ConverterClass {
 

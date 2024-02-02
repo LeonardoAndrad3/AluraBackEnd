@@ -1,4 +1,4 @@
-package med.voll.api.medico;
+package med.voll.api.domain.medico;
 
 import lombok.NoArgsConstructor;
 import med.voll.api.utils.ConverterClass;
@@ -12,9 +12,9 @@ public class MedicoService {
     @Autowired
     private MedicoRepository rep;
 
-    public void save(MedicoDTO dto){
+    public Medico save(MedicoDTO dto){
         var medico = ConverterClass.convertToMedico(dto);
-        rep.save(medico);
+        return rep.save(medico);
     }
 
 
