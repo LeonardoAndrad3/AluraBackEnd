@@ -25,7 +25,6 @@ public class MedicoController {
     @Transactional
     public ResponseEntity save(@RequestBody @Valid MedicoDTO data, UriComponentsBuilder builder){
         var medico = service.save(data);
-        System.out.println(medico);
         var uri = builder.path("/medicos/{id}").buildAndExpand(medico.getId()).toUri();
         return ResponseEntity.created(uri).body(new MedicoDetalhamentoDTO(medico));
     }

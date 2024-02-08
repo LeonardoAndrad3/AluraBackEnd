@@ -3,6 +3,7 @@ package med.voll.api.controller;
 import jakarta.validation.Valid;
 import med.voll.api.domain.usuario.DatosAutenticacao;
 import med.voll.api.domain.usuario.Usuarios;
+import med.voll.api.infra.security.TokenJwtDTO;
 import med.voll.api.infra.security.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,5 +31,4 @@ public class AutenticacaoController {
         var token =tokenService.gerarToken((Usuarios) autentication.getPrincipal());
         return ResponseEntity.ok(new TokenJwtDTO(token));
     }
-
 }

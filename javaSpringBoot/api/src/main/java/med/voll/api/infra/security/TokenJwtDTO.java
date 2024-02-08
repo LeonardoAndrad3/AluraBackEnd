@@ -1,4 +1,4 @@
-package med.voll.api.controller;
+package med.voll.api.infra.security;
 
 public record TokenJwtDTO(String token) {
 }

@@ -18,4 +18,8 @@ public record EnderecoDTO(
         String complemento,
         String numero
 ) {
+
+        public EnderecoDTO(Endereco data) {
+                this(data.getLogradouro(), data.getBairro(), data.getCep(), data.getUf(), data.getCidade(), data.getNumero(),data.getComplemento());
+        }
 }

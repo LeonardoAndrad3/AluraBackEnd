@@ -5,7 +5,4 @@ public record DatosAutenticacao(
         String login,
         String senha
 ) {
-
-
-
 }
