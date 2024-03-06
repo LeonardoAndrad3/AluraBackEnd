@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(of = "id")
 public class Consultas {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -9,6 +9,8 @@ public enum Especialidade {
 
     private String especialidadeM;
     Especialidade(String especialidadeM) {
+
         this.especialidadeM = especialidadeM;
+
     }
 }

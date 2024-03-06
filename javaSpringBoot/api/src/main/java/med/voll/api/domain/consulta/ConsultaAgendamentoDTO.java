@@ -20,9 +20,10 @@ public record ConsultaAgendamentoDTO(
 
         Especialidade especialidade
 
-
-
 ) {
 
+    public ConsultaAgendamentoDTO(Consultas consulta) {
+        this(consulta.getMedico().getId(), consulta.getPaciente().getId(), consulta.getData(), consulta.getMedico().getEspecialidade());
 
+    }
 }

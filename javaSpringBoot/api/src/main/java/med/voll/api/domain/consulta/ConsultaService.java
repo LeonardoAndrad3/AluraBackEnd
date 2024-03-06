@@ -1,11 +1,15 @@
 package med.voll.api.domain.consulta;
 
+import med.voll.api.domain.consulta.validacoes.ValidadorAgendamentoConsulta;
 import med.voll.api.domain.medico.Medico;
 import med.voll.api.domain.medico.MedicoRepository;
 import med.voll.api.domain.paciente.PacienteRepository;
 import med.voll.api.infra.exception.ValidacaoException;
+import org.hibernate.event.spi.SaveOrUpdateEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ConsultaService {
@@ -19,15 +23,22 @@ public class ConsultaService {
     @Autowired
     PacienteRepository pacienteRepository;
 
-    public void agendar(ConsultaAgendamentoDTO data){
+    @Autowired
+    private List<ValidadorAgendamentoConsulta> validadores;
+
+    public ConsultaAgendamentoDTO agendar(ConsultaAgendamentoDTO data){
 
         if(!pacienteRepository.existsById(data.idPaciente())) throw new ValidacaoException("Id get not found");
         if(data.idMedico() !=  null && !medicoRepository.existsById(data.idMedico())) throw new ValidacaoException("Id get not found");
 
+        validadores.forEach(v -> v.validar(data));
+
         var paciente = pacienteRepository.getReferenceById(data.idPaciente());
         var medico = chooseMedico(data);
         var consulta = new Consultas(null, medico, paciente, data.data());
-        consultaRepository.save(consulta);
+        consulta = consultaRepository.save(consulta);
+
+        return new ConsultaAgendamentoDTO(consulta);
     }
 
     private Medico chooseMedico(ConsultaAgendamentoDTO data) {
