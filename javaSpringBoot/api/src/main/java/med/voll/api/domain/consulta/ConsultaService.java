@@ -26,7 +26,7 @@ public class ConsultaService {
     @Autowired
     private List<ValidadorAgendamentoConsulta> validadores;
 
-    public ConsultaAgendamentoDTO agendar(ConsultaAgendamentoDTO data){
+    public ConsultaDetalhamentoDTO agendar(ConsultaAgendamentoDTO data){
 
         if(!pacienteRepository.existsById(data.idPaciente())) throw new ValidacaoException("Id get not found");
         if(data.idMedico() !=  null && !medicoRepository.existsById(data.idMedico())) throw new ValidacaoException("Id get not found");
@@ -38,7 +38,7 @@ public class ConsultaService {
         var consulta = new Consultas(null, medico, paciente, data.data());
         consulta = consultaRepository.save(consulta);
 
-        return new ConsultaAgendamentoDTO(consulta);
+        return new ConsultaDetalhamentoDTO(consulta);
     }
 
     private Medico chooseMedico(ConsultaAgendamentoDTO data) {
@@ -47,8 +47,12 @@ public class ConsultaService {
 
         if (data.especialidade() == null) throw new ValidacaoException("We need your inform the work of doctor when medico not specific.");
 
-        return medicoRepository.chooseRandomFreeDoctorInDate(data.especialidade(), data.data());
+        var medico = medicoRepository.chooseRandomFreeDoctorInDate(data.especialidade(), data.data());
 
+        if(medico != null)
+            return medico;
+
+        throw new RuntimeException("Not found medicos");
     }
 
 

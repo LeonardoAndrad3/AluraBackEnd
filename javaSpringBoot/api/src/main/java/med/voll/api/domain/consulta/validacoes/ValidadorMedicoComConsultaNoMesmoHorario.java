@@ -19,6 +19,4 @@ public class ValidadorMedicoComConsultaNoMesmoHorario implements ValidadorAgenda
             throw new ValidacaoException("Médico ja possui consulta nesse horario");
     }
 
-
-
 }

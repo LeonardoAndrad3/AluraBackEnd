@@ -42,6 +42,16 @@ public class Medico {
         this.ativo = true;
     }
 
+    public Medico(MedicoDTO data) {
+        this.nome = data.nome();
+        this.email = data.email();
+        this.telefone = data.telefone();
+        this.crm = data.crm();
+        this.especialidade = data.especialidade();
+        this.endereco = new Endereco(data.endereco());
+        this.ativo = true;
+    }
+
     public void atualizarInformacoes(MedicoCadDTO data) {
         if(!Validation.isNull(data.nome())) this.nome = data.nome();
         if(!Validation.isNull(data.telefone())) this.telefone = data.telefone();
